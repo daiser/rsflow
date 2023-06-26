@@ -55,6 +55,22 @@ pub mod sync {
         }
     }
 
+    pub fn send_all<'t, T, I>(flow: &Flow<T>, mut iterator: I)
+    where
+        T: Copy + 'static,
+        I: Iterator<Item = T>,
+    {
+        loop {
+            let i = iterator.next();
+            if i.is_some() {
+                let i_val = i.unwrap();
+                flow.send(&i_val);
+            } else {
+                break;
+            }
+        }
+    }
+
     fn copy<T>(value: &T) -> Option<T>
     where
         T: Copy,
