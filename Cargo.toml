@@ -10,6 +10,9 @@ edition = "2021"
 [[bin]]
 name = "demo"
 
+[[bin]]
+name = "fizzbuzz"
+
 [lib]
 name = "flow"
 path = "src/flow/flow.rs"

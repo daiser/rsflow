@@ -1,4 +1,4 @@
-use flow::sync::{new_flow, send_all, TFilter, TObserver};
+use flow::sync::{new_flow, send_many, TFilter, TObserver};
 
 fn filter_gt300(n: &i32) -> bool {
     n > &300
@@ -19,6 +19,6 @@ fn main() {
 
     f.send(&1);
     f.send(&099);
-    send_all(&f, [1, 2, 3, 4, 5].into_iter());
-    send_all(&f, 290..310);
+    send_many(&f, [1, 2, 3, 4, 5].into_iter());
+    send_many(&f, 290..310);
 }
