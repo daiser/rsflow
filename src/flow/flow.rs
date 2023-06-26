@@ -41,6 +41,10 @@ pub mod sync {
         pub fn filter(&mut self, filter_fn: &'static TFilter<T>) -> &mut Flow<T> {
             return self._next(Box::new(Filter { filter: filter_fn }));
         }
+
+        pub fn peep(&mut self, observer: &'static TObserver<T>) -> &mut Flow<T> {
+            return self._next(Box::new(Observer { observer }));
+        }
     }
 
     pub fn new_flow<'t, T>() -> Flow<T>
@@ -98,6 +102,17 @@ pub mod sync {
                 return copy(value);
             }
             None
+        }
+    }
+
+    struct Observer<'t, T: 'static> {
+        observer: &'t TObserver<T>,
+    }
+
+    impl<'t, T: Copy> Processor<T> for Observer<'static, T> {
+        fn execute(&self, value: &T) -> Option<T> {
+            (*self.observer)(value);
+            return copy(value);
         }
     }
 }
